@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+<div class="body-chat mb-0 pb-0">
+  <div class="container px-4">
+    <div class="row rounded-lg bg-light overflow-hidden shadow">
+      <!-- Users box-->
+      <div class="col-lg-5 px-0">
+        <div class="bg-white">
+          <div class="bg-gray px-4 py-2 bg-light">
+            <p class="h5 mb-0 py-1">Clientes conectados</p>
+          </div>
+
+          <div class="messages-box">
+            <div class="list-group rounded-0 m-0 p-0">
+              <div
+                (click)="activateReceptor(user.idDB, user.name, user.id)"
+                class="animate__animated animate__pulse list-group-item list-group-item-action list-group-item-light rounded-0"
+                *ngFor="let user of usersOnline"
+              >
+                <!-- class="list-group-item list-group-item-action active text-white rounded-0" -->
+                <div class="media">
+                  <img
+                    src="assets/love.svg"
+                    alt="user"
+                    width="50"
+                    class=""
+                  />
+                  <div class="media-body ml-4">
+                    <div
+                      class="d-flex align-items-center justify-content-between mb-1"
+                    >
+                      <h6 class="mb-0">{{ user.name | uppercase }}</h6>
+                      <small [id]="user.idDB" class="small font-weight-bold text-danger d-none"><i class="fas fa-envelope fa-2x"></i></small>
+                    </div>
+                    <p class="font-italic text-muted mb-0 text-small">
+                      Restaurante App.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Chat Box-->
+      <div class="col-lg-7 px-0">
+        <div class="px-4 py-5 chat-box bg-white">
+          <div *ngFor="let msg of conversation">
+            <!-- Sender Message-->
+            <div class="media w-50 mb-3 animate__animated animate__fadeIn" *ngIf="msg.receiver === userInAuth.uid">
+              <div class="media-body ml-3">
+                <div class="bg-primary rounded py-2 px-3 mb-2">
+                  <p class="text-small mb-0 text-white">
+                  <strong>{{this.receptor.name | uppercase}}</strong>: {{ msg.text }}
+                  </p>
+                </div>
+                <p class="small text-muted">{{msg.date | dates}}</p>
+              </div>
+            </div>
+
+            <!-- Reciever Message-->
+            <div class="media w-50 ml-auto mb-3 animate__animated animate__fadeIn" *ngIf="msg.receiver !== userInAuth.uid">
+              <div class="media-body">
+                <div class="bg-light rounded py-2 px-3 mb-2">
+                  <p class="text-small mb-0 text-muted">
+                   {{msg.text}}
+                  </p>
+                </div>
+                <p class="small text-muted">{{msg.date | dates}}</p>
+              </div>
+            </div>
+          </div>
+          <p *ngIf="receptor !== null && conversation.length>0" (click)="deleteConversation()" class="c-pointer text-right text-danger m-0 p-0">Borrar Conversación <i *ngIf="!loading" class="fas fa-trash-alt"></i><i *ngIf="loading" class="ml-2 fas fa-spinner fa-spin"></i></p>
+        </div>
+        <!-- Typing area -->
+        <form
+          class="bg-light"
+          [formGroup]="formMessage"
+          (ngSubmit)="sendMessage()"
+          *ngIf="receptor !== null"
+        >
+          <div class="input-group">
+            <input
+              type="text"
+              formControlName="text"
+              placeholder="Escriba su mensaje..."
+              aria-describedby="button-addon2"
+              class="form-control rounded-0 border-0 py-4 bg-light"
+              autofocus="true"
+            />
+            <div class="input-group-append">
+              <button
+                [disabled]="formMessage.invalid"
+                type="submit"
+                class="btn btn-link"
+              >
+                <i class="fa fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

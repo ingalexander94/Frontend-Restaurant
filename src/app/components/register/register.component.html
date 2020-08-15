@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4 mx-auto p-4">
+            <form [formGroup]="formRegister" (ngSubmit)="createClient()">
+                <h1 class="text-center">Crear cuenta</h1>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      aria-describedby="emailHelp"
+                      autocomplete="false"
+                      name="name"
+                      formControlName="name"
+                      placeholder="Nombre"
+                      required
+                    />
+                    <div class="alert alert-danger p-0 mt-2" *ngIf="name.invalid && (name.dirty || name.touched)" role="alert">
+                      <p class="p-0 m-0" *ngIf="name.errors.required">El nombre es obligatorio</p>
+                      <p class="p-0 m-0" *ngIf="name.errors.minlength">Debe tener mínimo 3 caracteres</p>
+                    </div>
+                  </div>
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Correo</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    aria-describedby="emailHelp"
+                    autocomplete="false"
+                    name="email"
+                    formControlName="email"
+                    placeholder="Correo"
+                    required
+                  />
+                  <div class="alert alert-danger p-0 mt-2" *ngIf="email.invalid && (email.dirty || email.touched)" role="alert">
+                    <p class="p-0 m-0" *ngIf="email.errors.required">El correo es obligatorio</p>
+                    <p class="p-0 m-0" *ngIf="email.errors.pattern">El correo no es valido</p>
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Clave</label>
+                  <input type="password" class="form-control" 
+                  autocomplete="false"
+                  name="password"
+                  formControlName="password"
+                  placeholder="Contraseña"
+                  required
+                  />
+                  <div class="alert alert-danger p-0 mt-2" *ngIf="password.invalid && (password.dirty || password.touched)" role="alert">
+                    <p class="p-0 m-0" *ngIf="password.errors.required">La contraseña es obligatoria</p>
+                    <p class="p-0 m-0" *ngIf="password.errors.minlength">Debe tener mínimo 6 caracteres</p>
+                  </div>
+                  <a [routerLink]="['/']" id="emailHelp" class="form-text link">
+                    ¿ Ya tiene una cuenta ?
+                  </a>
+                </div>
+                <button [disabled]="formRegister.invalid" type="submit" class="btn btn-primary btn-block">Crear cuenta<i *ngIf="loading" class="ml-2 fas fa-spinner fa-spin"></i></button>
+              </form>        
+        </div>
+    </div>
+   
+</div>

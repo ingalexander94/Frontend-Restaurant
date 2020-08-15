@@ -1,0 +1,57 @@
+<div id="live-chat">
+  <header (click)="scroll()" class="clearfix">
+    <h4>Administrador</h4>
+  </header>
+
+  <div
+    class="chat animate__animated animate__slideInUp animate__faster"
+    *ngIf="hide"
+  >
+    <div class="chat-history" id="historial" *ngIf="userAuth !== null">
+      <div
+        class="chat-message clearfix p-2 rounded animate__animated animate__fadeIn"
+        [ngClass]="{ 'bg-primary text-white': msg.receiver === userAuth.uid }"
+        *ngFor="let msg of conversation"
+      >
+        <img class="mr-2" *ngIf="msg.receiver === userAuth.uid" src="assets/chat.svg" alt="" width="32" height="32" />
+
+        <div class="chat-message-content clearfix">
+          <span class="chat-time">{{msg.date | dates}}</span>
+
+          <h5>
+            {{
+              msg.receiver === userAuth.uid
+                ? ("Administrador" | uppercase)
+                : ""
+            }}
+          </h5>
+
+          <p>{{ msg.text }}</p>
+        </div>
+        <!-- end chat-message-content -->
+      </div>
+      <!-- end chat-message -->
+
+      <hr />
+    </div>
+    <!-- end chat-history -->
+
+    <p class="chat-feedback text-warning">Informe los detalles de su pedido</p>
+
+    <form [formGroup]="formMessage" (ngSubmit)="sendMessage()">
+      <fieldset>
+        <input
+          type="text"
+          name="text"
+          formControlName="text"
+          placeholder="Escriba su mensaje..."
+          required
+          autofocus="true"
+          autocomplete="off"
+        />
+      </fieldset>
+    </form>
+  </div>
+  <!-- end chat -->
+</div>
+<!-- end live-chat -->
